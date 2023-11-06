@@ -38,7 +38,7 @@ class JuegoGuerra:
     def iniciar_guerra(self,carta1,carta2):
         self.mesa.poner_abajo(carta1)
         self.mesa.poner_abajo(carta2)
-        # Se comprueba si los mazos tienen suficientes cartas
+        # tienen suficientes cartas? si/no
         if len(self.Player1.mazo) < 4 or len(self.Player2.mazo) < 4:
             return True
         for _ in range(3):
@@ -48,16 +48,20 @@ class JuegoGuerra:
     def comparar_cartas(self, carta1, carta2):
         Valor1 = valores.index(carta1.valor) + 2
         Valor2 = valores.index(carta2.valor) + 2
-        # Se comparan los valores para saber el ganador
+        # El valor mayor sera el ganador 
         if Valor1 > Valor2:
-            # En el caso de que se inicie una guerra (guerra = True) y Valor1 > Valor2
-            # se le repartirian las cartas al jugador correspondiente (Player1 en este caso)
+           
+            #Si, solo si inicia una guerra que seria verdad guerra y valor 1 mayor al 2
+            # se le repartirian las cartas al player1 en este caso 
+           
             if self.guerra:
                 for _ in self.mesa.mazo:
                     self.Player1.poner_abajo(self.mesa.sacar_arriba())
                 self.Player1.poner_abajo(carta1)
                 self.Player1.poner_abajo(carta2)
-                # Después de que repartir las cartas, se cambia el estado de la guerra
+
+                # Luego de repartir, cambia el estado de guerra 
+
                 self.guerra = False
                 self.string_cartas = ""
             # Si guerra = Flase se ejecutaría el else y se reparte normal
@@ -76,8 +80,8 @@ class JuegoGuerra:
             else:
                 self.Player2.poner_abajo(carta1)
                 self.Player2.poner_abajo(carta2)
-        # En el caso de que no haya ganador, se cambia el estado de guerra y 
-        # posteriormente entra en el metodo iniciar_guerra
+       
+        #como no hay ganador, cambia y entra en iniciar guerra 
         else:
             self.guerra = True
 
@@ -86,10 +90,10 @@ class JuegoGuerra:
         self.repartir()
 
         while self.turno <= 10000:
-            # Se comprueba constantemente el tamaño de los mazos
+            # Se prueba constantemente el tamaño de los mazos por precaucion 
             if  self.Player1.mazo.tamanio == 0 or self.Player2.mazo.tamanio == 0:
                 break
-            # En cada turno se sacan las cartas a los jugadores para poder mostrarlas y compararlas
+           
             carta1 = self.Player1.sacar_arriba()
             carta2 = self.Player2.sacar_arriba()
 
@@ -98,7 +102,7 @@ class JuegoGuerra:
             #------------------------------------------------------------------------
             print("--------------------------------------")
 
-            # Si guerra = True se muestra el cartel de guerra
+            
             if self.guerra:
                 print(" "*20,"**** Guerra!! ****")
 
@@ -108,10 +112,10 @@ class JuegoGuerra:
             for i in range(len(self.Player1.mazo)):
                 if i % 10 == 0 and i != 0:
                     print()  # Salto de línea después de cada 10 cartas
-                print("-X", end=" ")  # Imprimir carta, sin salto de línea
+                print("-X", end=" ")  # Imprime la carta, sin salto de línea
 
             print("\n")
-            # Cuando hay guerra se muestran todas las cartas
+            # Se muestran todas las cartas de la guerra
             if self.guerra:
                 self.string_cartas += " " + "-X"*6+ " " + str(carta1) + " " + str(carta2)
                 print(" "*10,self.string_cartas)
@@ -164,7 +168,7 @@ class Mazo:
     shuffle(cartas_lista) #mezclamos las cartas
     self.mazo = ListaDobleEnlazada()
     for carta in cartas_lista:
-      self.mazo.agregar_al_final(carta) #😆
+      self.mazo.agregar_al_final(carta)
 
   def repartir(self):
     Player1 = Mazo() #Se le asignan a los jugadores los metodos de Mazo
@@ -197,5 +201,3 @@ class Mazo:
 
 
 
-jugar = JuegoGuerra()
-jugar.iniciar_juego()
